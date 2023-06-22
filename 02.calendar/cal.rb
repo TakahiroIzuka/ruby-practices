@@ -4,7 +4,6 @@ require 'date'
 require 'optparse'
 
 today = Date.today
-puts today
 # ターゲットの日付は、todayで初期化する
 target_year = today.year
 target_month = today.month
@@ -40,7 +39,6 @@ RED = 31
 BLUE = 34
 
 # 基本、数字のカラーは赤色で出力する
-puts "等しい" if "#{target_year}-#{target_month}-19" == today.to_s
 printf("%33s", "\e[#{RED}m#{target_year}\e[0m年 \e[#{RED}m#{target_month}\e[0m月")
 puts
 printf("%14s", "日 月 火 水 木 金 土")

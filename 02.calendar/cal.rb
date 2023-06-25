@@ -49,7 +49,7 @@ days_in_month.length.times do |i|
 
   if i % 7 == 0
     puts
-    format = "%7s"
+    format_day = "%7s"
   end
   color = RED if !(days_in_month[i].to_s).empty? && Date.new(target_month.year, target_month.month, days_in_month[i]) == Date.today
   printf(format_day, "\e[#{color}m#{days_in_month[i]}")

@@ -3,23 +3,16 @@
 require 'date'
 require 'optparse'
 
-# ターゲットの日付は、todayで初期化する
 year = Date.today.year
 month = Date.today.month
 
 opt = OptionParser.new
-# -yオプションで入力された年
 opt.on('-y VAL', String) do |y|
-  # ターゲット年を上書き
   year = y.to_i
-  raise OptionParser::InvalidArgument.new("年は1970~2100の間で設定してください") if target_year < 1970 || 2100 < target_year
 end
 
-#-mオプションで入力された月
 opt.on('-m VAL') do |m|
-  # ターゲット月を上書き
   month = m.to_i
-  raise OptionParser::InvalidArgument.new("月は1~12の間で設定してください") if target_month < 1 || 12 < target_month
 end
 
 # parseしないとopt.onのブロックが実行されないので注意

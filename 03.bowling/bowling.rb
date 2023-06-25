@@ -8,7 +8,6 @@ shot_count = 0
 scores.each do |s|
   if s == 'X' # strike
     shots << 10
-    # 10フレーム目は0を入れない
     shots << 0 if shot_count < 18
     shot_count += shot_count < 18 ? 2 : 1
   else
@@ -22,7 +21,6 @@ shots.each_slice(2) do |s|
   frames << s
 end
 
-# フラグ用の役
 NORMAL = 0
 SPARE = 1
 STRIKE = 2
@@ -37,7 +35,6 @@ frames.each do |frame|
 
   break if frame_count > 10
 
-  # フラグの値によって現在のフレームの値をpointにプラス
   case flag
   when DOUBLE
     point += frame.sum + frame[0]
@@ -48,7 +45,6 @@ frames.each do |frame|
   end
 
   flag = if frame[0] == 10
-           # 一つ前のflagがSTRIKE以上の場合はDOUBLE
            flag >= STRIKE ? DOUBLE : STRIKE
          elsif frame.sum == 10
            SPARE

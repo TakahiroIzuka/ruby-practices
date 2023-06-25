@@ -20,9 +20,7 @@ end
 
 LINE = 3
 
-# 空の多次元配列を作成
 multiple_arrays = create_multiple_arrays(LINE)
-# 多次元配列に順番にディレクトリを格納
 add_item_with_order(multiple_arrays, Dir.glob('*'))
 
 multiple_arrays.each do |array|

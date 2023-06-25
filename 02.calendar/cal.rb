@@ -3,6 +3,9 @@
 require 'date'
 require 'optparse'
 
+RED = 31
+DEFAULT = 39
+
 year = Date.today.year
 month = Date.today.month
 
@@ -26,21 +29,30 @@ days_in_month = (1..target_month_last_date.day.to_i).to_a
   days_in_month.unshift('')
 end
 
-RED = 31
-DEFAULT = 39
-printf("%14s", "#{target_month.strftime('%B')} #{target_month.year}")
+case target_month.strftime('%B').length
+when 3..4
+  format_month = "%15s"
+when 5..6
+  format_month = "%16s"
+when 7..8
+  format_month = "%17s"
+when 9
+  format_month = "%18s"
+end
+
+printf(format_month, "#{target_month.strftime('%B')} #{target_month.year}")
 puts
 printf("%13s", "Su Mo Tu We Th Fr Sa")
 days_in_month.length.times do |i|
   color = DEFAULT
-  format = "%8s"
+  format_day = "%8s"
 
   if i % 7 == 0
     puts
     format = "%7s"
   end
   color = RED if !(days_in_month[i].to_s).empty? && Date.new(target_month.year, target_month.month, days_in_month[i]) == Date.today
-  printf(format, "\e[#{color}m#{days_in_month[i]}")
+  printf(format_day, "\e[#{color}m#{days_in_month[i]}")
 end
 puts
 puts

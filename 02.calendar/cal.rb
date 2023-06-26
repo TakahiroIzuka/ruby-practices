@@ -18,16 +18,11 @@ opt.on('-m VAL') do |m|
   month = m.to_i
 end
 
-# parseしないとopt.onのブロックが実行されないので注意
 opt.parse!(ARGV)
 
 target_month = Date.new(year, month)
 target_month_last_date = Date.new(year, month, -1)
-days_in_month = (1..target_month_last_date.day.to_i).to_a
-
-(target_month.wday).times do
-  days_in_month.unshift('')
-end
+days_in_month = [*Array.new(target_month.wday, ''), *1..target_month_last_date.day]
 
 case target_month.strftime('%B').length
 when 3..4
@@ -42,17 +37,24 @@ end
 
 printf(format_month, "#{target_month.strftime('%B')} #{target_month.year}")
 puts
-printf("%13s", "Su Mo Tu We Th Fr Sa")
-days_in_month.length.times do |i|
-  color = DEFAULT
-  format_day = "%8s"
+printf "Su Mo Tu We Th Fr Sa"
 
+color = DEFAULT
+days_in_month.each_with_index do |day, i|
+  format_day = "%8s"
   if i % 7 == 0
     puts
     format_day = "%7s"
   end
-  color = RED if !(days_in_month[i].to_s).empty? && Date.new(target_month.year, target_month.month, days_in_month[i]) == Date.today
-  printf(format_day, "\e[#{color}m#{days_in_month[i]}")
+
+  if !(day.to_s).empty? && Date.new(target_month.year, target_month.month, day) == (Date.today)
+    color = RED
+    printf(format_day, "\e[#{color}m#{day}")
+    # DEFAULTで上書きしないと以後出力される文字色が全てREDで出力されてしまう
+    color = DEFAULT
+  else
+    printf(format_day, "\e[#{color}m#{day}")
+  end
 end
 puts
 puts

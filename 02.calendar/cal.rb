@@ -20,42 +20,40 @@ end
 
 opt.parse!(ARGV)
 
-target_month = Date.new(year, month)
-target_month_last_date = Date.new(year, month, -1)
-days_in_month = [*Array.new(target_month.wday, ''), *1..target_month_last_date.day]
+first_date = Date.new(year, month, 1)
+last_date = Date.new(year, month, -1)
 
-case target_month.strftime('%B').length
+case first_date.strftime('%B').length
 when 3..4
-  format_month = "%15s"
+  format_month = '%15s'
 when 5..6
-  format_month = "%16s"
+  format_month = '%16s'
 when 7..8
-  format_month = "%17s"
+  format_month = '%17s'
 when 9
-  format_month = "%18s"
+  format_month = '%18s'
 end
 
-printf(format_month, "#{target_month.strftime('%B')} #{target_month.year}")
+printf(format_month, "#{first_date.strftime('%B')} #{first_date.year}")
 puts
-printf "Su Mo Tu We Th Fr Sa"
+
+printf 'Su Mo Tu We Th Fr Sa'
+puts if first_date.wday > 0
+printf "#{[*Array.new(first_date.wday, '   ')].join}"
 
 color = DEFAULT
-days_in_month.each_with_index do |day, i|
-  format_day = "%8s"
-  if i % 7 == 0
-    puts
-    format_day = "%7s"
-  end
+(first_date..last_date).each do |date|
+  format_day = '%7s '
+  puts if date.sunday?
 
-  if !(day.to_s).empty? && Date.new(target_month.year, target_month.month, day) == (Date.today)
+  if date == Date.today
     color = RED
-    printf(format_day, "\e[#{color}m#{day}")
+    printf(format_day, "\e[#{color}m#{date.day}")
+
     # DEFAULTで上書きしないと以後出力される文字色が全てREDで出力されてしまう
     color = DEFAULT
   else
-    printf(format_day, "\e[#{color}m#{day}")
+    printf(format_day, "\e[#{color}m#{date.day}")
   end
 end
-puts
-puts
-
+print "\n\n"

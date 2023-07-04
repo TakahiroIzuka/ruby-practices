@@ -1,56 +1,41 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+SHOT_NUM_UPTO_9FRAMES = 9 * 2
+POINT_10 = 10
+
 score = ARGV[0]
 scores = score.split(',')
 shots = []
-shot_count = 0
 scores.each do |s|
   if s == 'X' # strike
     shots << 10
-    shots << 0 if shot_count < 18
-    shot_count += shot_count < 18 ? 2 : 1
+    shots << 0 if shots.size < SHOT_NUM_UPTO_9FRAMES
   else
     shots << s.to_i
-    shot_count += 1
   end
 end
 
-frames = []
-shots.each_slice(2) do |s|
-  frames << s
+frames = shots.each_slice(2).to_a
+if frames[10]
+  frames[9].concat frames[10]
+  frames.pop
 end
-
-NORMAL = 0
-SPARE = 1
-STRIKE = 2
-DOUBLE = 3
 
 point = 0
-frame_count = 0
-flag = NORMAL
-frames.each do |frame|
-  frame_count += 1
+frames.each_with_index do |frame, i|
   point += frame.sum
 
-  break if frame_count > 10
+  next if i >= 9
 
-  case flag
-  when DOUBLE
-    point += frame.sum + frame[0]
-  when STRIKE
-    point += frame.sum
-  when SPARE
-    point += frame[0]
+  next_frame = frames[i + 1]
+  after_next_frame = frames[i + 2]
+  if frame[0] == POINT_10
+    point += next_frame[0] + next_frame[1]
+    point += after_next_frame[0] if next_frame[0] == POINT_10 && after_next_frame
+  elsif frame.sum == POINT_10
+    point += next_frame[0]
   end
-
-  flag = if frame[0] == 10
-           flag >= STRIKE ? DOUBLE : STRIKE
-         elsif frame.sum == 10
-           SPARE
-         else
-           NORMAL
-         end
 end
 
 p point

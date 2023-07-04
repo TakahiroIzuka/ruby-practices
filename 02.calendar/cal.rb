@@ -28,7 +28,7 @@ puts
 puts 'Su Mo Tu We Th Fr Sa'
 print '   ' * first_date.wday
 
-(first_date..last_date).each_with_index do |date, i|
+(first_date..last_date).each do |date|
   day = date.day.to_s.rjust(2)
   if date == Date.today
     print "\e[#{RED}m#{day}\e[0m "

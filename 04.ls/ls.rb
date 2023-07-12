@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-COLUMNS = 5
+COLUMNS = 3
 
 def check_columns(directories)
   directories.size < COLUMNS ? directories.size : COLUMNS

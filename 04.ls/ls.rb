@@ -1,31 +1,46 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-def create_multiple_arrays(line)
-  arrays = []
-  line.times { arrays.append([]) }
-  arrays
+COLUMNS = 5
+
+def check_columns(directories)
+  directories.size < COLUMNS ? directories.size : COLUMNS
 end
 
-def add_dirs_in_order(arrays, directories)
-  directories.map.with_index do |directory, i|
-    next if directory.start_with?('.')
+def get_rows(directories, columns)
+  rows = directories.size / columns
+  (directories.size % columns).zero? ? rows : rows + 1
+end
 
-    line = arrays.length
-    line.times do |n|
-      arrays[n] << directory if i % line == n
+def create_dir_array(directories, columns, rows)
+  column_num = 0
+  dir_array = []
+  columns.times do
+    return dir_array if directories.empty?
+
+    if columns == 1
+      return dir_array << directories
+    elsif rows == 1 || directories.size > rows && directories.size > (columns - column_num)
+      dir_array << directories.slice!(0...rows)
+    else
+      dir_array << directories.slice!(0...rows - 1)
     end
+
+    column_num += 1
   end
+  dir_array
 end
 
-LINE = 3
+directories = Dir.glob('*')
+max_name = directories.max_by(&:length)
+columns = check_columns(directories)
+rows = get_rows(directories, columns)
+dir_array = create_dir_array(directories, columns, rows)
 
-multiple_arrays = create_multiple_arrays(LINE)
-add_dirs_in_order(multiple_arrays, Dir.glob('*'))
-
-multiple_arrays.each do |array|
-  array.each do |name|
-    print name.ljust(15)
+(0...rows).each do |row|
+  (0...columns).each do |col|
+    dir = dir_array[col][row].to_s.ljust(max_name.size + 2)
+    print "#{dir} "
   end
-  puts
+  print "\n"
 end

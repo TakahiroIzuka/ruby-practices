@@ -3,44 +3,39 @@
 
 COLUMNS = 3
 
-def check_columns(directories)
-  directories.size < COLUMNS ? directories.size : COLUMNS
+def get_column_size(files)
+  files.size < COLUMNS ? files.size : COLUMNS
 end
 
-def get_rows(directories, columns)
-  rows = directories.size / columns
-  (directories.size % columns).zero? ? rows : rows + 1
+def get_row_size(files, columns)
+  files.size.ceildiv(columns)
 end
 
-def create_dir_array(directories, columns, rows)
-  column_num = 0
-  dir_array = []
-  columns.times do
-    return dir_array if directories.empty?
-
-    if columns == 1
-      return dir_array << directories
-    elsif rows == 1 || directories.size > rows && directories.size > (columns - column_num)
-      dir_array << directories.slice!(0...rows)
+def create_file_arrays(files, columns, rows)
+  file_arrays = []
+  columns.times do |n|
+    if columns == n + 1
+      return file_arrays << files
+    elsif rows == 1 || files.size > rows && files.size > (columns - n)
+      file_arrays << files.slice!(0...rows)
     else
-      dir_array << directories.slice!(0...rows - 1)
+      file_arrays << files.slice!(0...rows - 1)
     end
-
-    column_num += 1
   end
-  dir_array
+
+  file_arrays
 end
 
-directories = Dir.glob('*')
-max_name = directories.max_by(&:length)
-columns = check_columns(directories)
-rows = get_rows(directories, columns)
-dir_array = create_dir_array(directories, columns, rows)
+files = Dir.glob('*')
+max_name_length = files.max_by(&:length)
+columns = get_column_size(files)
+rows = get_row_size(files, columns)
+file_arrays = create_file_arrays(files, columns, rows)
 
 (0...rows).each do |row|
   (0...columns).each do |col|
-    dir = dir_array[col][row].to_s.ljust(max_name.size + 2)
-    print "#{dir} "
+    file_name = file_arrays[col][row].to_s.ljust(max_name_length.size + 2)
+    print file_name
   end
   print "\n"
 end

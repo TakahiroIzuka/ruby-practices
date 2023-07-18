@@ -13,16 +13,9 @@ end
 
 def create_file_arrays(files, columns, rows)
   file_arrays = []
-  columns.times do |n|
-    if columns == n + 1
-      return file_arrays << files
-    elsif rows == 1 || files.size > rows && files.size > (columns - n)
-      file_arrays << files.slice!(0...rows)
-    else
-      file_arrays << files.slice!(0...rows - 1)
-    end
+  columns.times do
+    file_arrays << files.slice!(0, rows)
   end
-
   file_arrays
 end
 

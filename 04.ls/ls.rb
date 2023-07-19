@@ -12,11 +12,8 @@ def get_row_size(files, columns)
 end
 
 def create_file_arrays(files, columns, rows)
-  file_arrays = []
-  columns.times do
-    file_arrays << files.slice!(0, rows)
-  end
-  file_arrays
+  file_arrays = files.each_slice(rows).to_a
+  file_arrays.concat(Array.new(columns - file_arrays.size, []))
 end
 
 files = Dir.glob('*')

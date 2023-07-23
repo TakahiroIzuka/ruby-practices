@@ -1,7 +1,14 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+require 'optparse'
+
 COLUMNS = 3
+
+is_all_option = false
+opt = OptionParser.new
+opt.on('-a') { is_all_option = true }
+opt.parse!(ARGV)
 
 def get_column_size(files)
   files.size < COLUMNS ? files.size : COLUMNS
@@ -16,7 +23,8 @@ def create_file_arrays(files, columns, rows)
   file_arrays.concat(Array.new(columns - file_arrays.size, []))
 end
 
-files = Dir.glob('*')
+flag = is_all_option ? File::FNM_DOTMATCH : 0
+files = Dir.glob('*', flag)
 max_name_length = files.max_by(&:length)
 columns = get_column_size(files)
 rows = get_row_size(files, columns)

@@ -4,10 +4,12 @@
 require 'optparse'
 
 COLUMNS = 3
-
 is_all_option = false
+is_reverse_option = false
+
 opt = OptionParser.new
 opt.on('-a') { is_all_option = true }
+opt.on('-r') { is_reverse_option = true }
 opt.parse!(ARGV)
 
 def get_column_size(files)
@@ -24,7 +26,7 @@ def create_file_arrays(files, columns, rows)
 end
 
 flag = is_all_option ? File::FNM_DOTMATCH : 0
-files = Dir.glob('*', flag)
+files = is_reverse_option ? Dir.glob('*', flag).reverse : Dir.glob('*', flag)
 max_name_length = files.max_by(&:length)
 columns = get_column_size(files)
 rows = get_row_size(files, columns)

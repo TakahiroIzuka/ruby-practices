@@ -26,11 +26,12 @@ def create_file_arrays(files, columns, rows)
 end
 
 flag = is_all_option ? File::FNM_DOTMATCH : 0
-files = is_reverse_option ? Dir.glob('*', flag).reverse : Dir.glob('*', flag)
-max_name_length = files.max_by(&:length)
-columns = get_column_size(files)
-rows = get_row_size(files, columns)
-file_arrays = create_file_arrays(files, columns, rows)
+files = Dir.glob('*', flag)
+sorted_files = is_reverse_option ? files.reverse : files
+max_name_length = sorted_files.max_by(&:length)
+columns = get_column_size(sorted_files)
+rows = get_row_size(sorted_files, columns)
+file_arrays = create_file_arrays(sorted_files, columns, rows)
 
 (0...rows).each do |row|
   (0...columns).each do |col|

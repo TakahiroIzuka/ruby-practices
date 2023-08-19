@@ -5,6 +5,16 @@ require 'optparse'
 require 'etc'
 
 COLUMNS = 3
+PERMISSION_MAP = {
+  '0' => '---',
+  '1' => '--x',
+  '2' => '-w-',
+  '3' => '-wx',
+  '4' => 'r--',
+  '5' => 'r-x',
+  '6' => 'rw-',
+  '7' => 'rwx'
+}.freeze
 is_all_option = false
 is_reverse_option = false
 is_long_option = false
@@ -64,24 +74,7 @@ end
 def convert_permission_char(permission_num)
   permission_char = +''
   permission_num.each_char do |char|
-    case char
-    when '0'
-      permission_char << '---'
-    when '1'
-      permission_char << '--x'
-    when '2'
-      permission_char << '-w-'
-    when '3'
-      permission_char << '-wx'
-    when '4'
-      permission_char << 'r--'
-    when '5'
-      permission_char << 'r-x'
-    when '6'
-      permission_char << 'rw-'
-    when '7'
-      permission_char << 'rwx'
-    end
+    permission_char << PERMISSION_MAP[char]
   end
   permission_char
 end
@@ -89,7 +82,7 @@ end
 flag = is_all_option ? File::FNM_DOTMATCH : 0
 files = Dir.glob('*', flag)
 sorted_files = is_reverse_option ? files.reverse : files
-columns = get_column_size(sorted_files)
+columns = is_long_option ? 1 : get_column_size(sorted_files)
 rows = get_row_size(sorted_files, columns)
 
 if is_long_option

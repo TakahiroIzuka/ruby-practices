@@ -15,6 +15,12 @@ PERMISSION_MAP = {
   '6' => 'rw-',
   '7' => 'rwx'
 }.freeze
+FILE_TYPE_MAP = {
+  '04' => 'd',
+  '10' => '-',
+  '12' => '|'
+}.freeze
+
 is_all_option = false
 is_reverse_option = false
 is_long_option = false
@@ -59,24 +65,11 @@ end
 
 def get_file_type(file_mode)
   file_type_num = format('%06d', file_mode).slice(0, 2)
-  case file_type_num
-  when '04'
-    'd'
-  when '10'
-    '-'
-  when '12'
-    '|'
-  else
-    ''
-  end
+  FILE_TYPE_MAP[file_type_num]
 end
 
 def convert_permission_char(permission_num)
-  permission_char = +''
-  permission_num.each_char do |char|
-    permission_char << PERMISSION_MAP[char]
-  end
-  permission_char
+  permission_num.each_char.map { |char| PERMISSION_MAP[char] }.join
 end
 
 flag = is_all_option ? File::FNM_DOTMATCH : 0

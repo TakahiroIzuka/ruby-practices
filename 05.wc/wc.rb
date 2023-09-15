@@ -14,7 +14,7 @@ def get_each_total(files, options)
   end
   {
     lines: total_line != 0 ? "#{total_line} " : '',
-    words: total_word != 0 ? " #{total_word} " : '',
+    words: total_word != 0 ? "#{total_word} " : '',
     characters: total_character != 0 ? "#{total_character} " : ''
   }
 end
@@ -57,7 +57,10 @@ else
   each_total = get_each_total(files, options)
   total_lines = each_total[:lines]
   total_words = each_total[:words]
-  total_characters = each_total[:characters]
+  total_char = each_total[:characters]
+  total_lines_size = !total_lines.empty? ? total_lines.size + 1 : 0
+  total_words_size = !total_words.empty? ? total_words.size + 1 : 0
+  total_characters_size = !total_char.empty? ? total_char.size : 0
 
   files.each do |file|
     lines = options['l'] ? "#{file[:text].scan(/\n/).length} " : ''
@@ -67,9 +70,9 @@ else
     if files.count == 1 && options.values.count(true) == 1
       puts "#{lines}#{words}#{characters}#{file[:file_name]}"
     else
-      puts " #{lines.rjust(total_lines.size)}#{words.rjust(total_words.size)}#{characters.rjust(total_characters.size)}#{file[:file_name]}"
+      puts "#{lines.rjust(total_lines_size)}#{words.rjust(total_words_size)}#{characters.rjust(total_characters_size)}#{file[:file_name]}"
     end
   end
 
-  puts " #{total_lines}#{total_words}#{total_characters}total" if files.count >= 2
+  puts "#{total_lines.rjust(total_lines_size)}#{total_words.rjust(total_words_size)}#{total_char.rjust(total_characters_size)}total" if files.count >= 2
 end

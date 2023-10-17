@@ -37,7 +37,6 @@ ARGV.each do |file_name|
 end
 
 if files.empty?
-  # p '標準入力'
   readlines = ARGF.readlines
   line_count = readlines.length
   word_count = 0
@@ -61,10 +60,8 @@ if files.empty?
     widths.push(outputs[2].length > 7 ? outputs[0].length + 1 : 8)
 
     output_wc(outputs, widths)
-    # puts "#{outputs[0].rjust(widths[0])}#{outputs[1].rjust(widths[1])}#{outputs[2].rjust(widths[2])}"
   end
 else
-  # p 'ファイルからの入力'
   each_total = get_each_total(files, options)
   total_line = each_total[:line_count]
   total_word = each_total[:word_count]
@@ -75,23 +72,13 @@ else
   widths.push(total_word.empty? || (options.values.count(true) == 1 && files.count == 1) ? 0 : total_word.size + 1)
   widths.push(total_byte.empty? || (options.values.count(true) == 1 && files.count == 1) ? 0 : total_byte.size)
 
-  # total_line_count = total_line.empty? || options.values.count(true) == 1 ? 0 : total_line.size + 1
-  # total_word_count = total_word.empty? || options.values.count(true) == 1 ? 0 : total_word.size + 1
-  # total_byte_count = total_byte.empty? || options.values.count(true) == 1 ? 0 :  total_byte.size
-
   files.each do |file|
     outputs = []
     outputs.unshift options['c'] ? "#{file[:text].bytesize} " : ''
     outputs.unshift options['w'] ? "#{file[:text].split(/\s+/).length} " : ''
     outputs.unshift options['l'] ? "#{file[:text].scan(/\n/).length} " : ''
 
-    # outputs = Array.new(2, '')
-    # p outputs.unshift "#{file[:text].bytesize} " if options['c']
-    # p outputs.unshift "#{file[:text].split(/\s+/).length} " if options['w']
-    # p outputs.unshift "#{file[:text].scan(/\n/).length} " if options['l']
-
     output_wc(outputs, widths, file[:file_name])
-    # puts "#{outputs[0].rjust(widths[0])}#{outputs[1].rjust(widths[1])}#{outputs[2].rjust(widths[2])}#{file[:file_name]}"
   end
 
   puts "#{total_line.rjust(widths[0])}#{total_word.rjust(widths[1])}#{total_byte.rjust(widths[2])}total" if files.count >= 2

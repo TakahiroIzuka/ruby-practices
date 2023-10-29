@@ -3,11 +3,9 @@
 
 require 'optparse'
 
-OUTPUT_MAP = {
-  'l' => 0,
-  'w' => 1,
-  'c' => 2
-}.freeze
+LENGTH_COLUMN = 0
+WORD_COLUMN = 1
+BYTE_COLUMN = 2
 
 def get_each_total(files, options)
   total_line = 0
@@ -26,9 +24,9 @@ def get_each_total(files, options)
 end
 
 def output_wc(outputs, widths, file_name = '')
-  puts "#{outputs[OUTPUT_MAP['l']].rjust(widths[OUTPUT_MAP['l']])}" \
-       "#{outputs[OUTPUT_MAP['w']].rjust(widths[OUTPUT_MAP['w']])}" \
-       "#{outputs[OUTPUT_MAP['c']].rjust(widths[OUTPUT_MAP['c']])}#{file_name}"
+  puts "#{outputs[LENGTH_COLUMN].rjust(widths[LENGTH_COLUMN])}" \
+       "#{outputs[WORD_COLUMN].rjust(widths[WORD_COLUMN])}" \
+       "#{outputs[BYTE_COLUMN].rjust(widths[BYTE_COLUMN])}#{file_name}"
 end
 
 options = ARGV.getopts('l', 'w', 'c')
@@ -64,9 +62,9 @@ if files.empty?
   else
     max_width = 8
     widths = []
-    widths.push(outputs[OUTPUT_MAP['l']].length >= max_width ? outputs[OUTPUT_MAP['']].length + 1 : max_width - 1)
-    widths.push(outputs[OUTPUT_MAP['w']].length >= max_width ? outputs[OUTPUT_MAP['w']].length + 1 : max_width)
-    widths.push(outputs[OUTPUT_MAP['c']].length >= max_width ? outputs[OUTPUT_MAP['c']].length + 1 : max_width)
+    widths.push(outputs[LENGTH_COLUMN].length >= max_width ? outputs[LENGTH_COLUMN].length + 1 : max_width - 1)
+    widths.push(outputs[WORD_COLUMN].length >= max_width ? outputs[WORD_COLUMN].length + 1 : max_width)
+    widths.push(outputs[BYTE_COLUMN].length >= max_width ? outputs[BYTE_COLUMN].length + 1 : max_width)
 
     output_wc(outputs, widths)
   end
@@ -90,7 +88,5 @@ else
     output_wc(outputs, widths, file[:file_name])
   end
 
-  if files.count >= 2
-    puts "#{total_line.rjust(widths[OUTPUT_MAP['l']])}#{total_word.rjust(widths[OUTPUT_MAP['w']])}#{total_byte.rjust(widths[OUTPUT_MAP['c']])}total"
-  end
+  puts "#{total_line.rjust(widths[LENGTH_COLUMN])}#{total_word.rjust(widths[WORD_COLUMN])}#{total_byte.rjust(widths[BYTE_COLUMN])}total" if files.count >= 2
 end

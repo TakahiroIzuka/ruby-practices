@@ -4,33 +4,46 @@ require_relative './frame'
 require_relative './last_frame'
 require_relative './shot'
 
-# Gameクラスを定義
 class Game
   def initialize
     @frames = []
   end
 
   def play(marks)
-    # marksのチェックと成形
     marks = add_zero_after_strike(marks)
     check_size_of_marks(marks)
     check_content_of_marks(marks)
     formatted_marks = formatted_marks(marks)
 
-    # shot, frameの生成
     formatted_marks.each_with_index do |marks_per_frame, index|
       shots = marks_per_frame.map { |mark| Shot.new(mark) }
+      current_frame = index + 1
 
-      if index >= 9
-        @frames << LastFrame.new(*shots) if index == 9
-        next
-      end
-      @frames << Frame.new(*shots)
+      frame = if current_frame < 10
+                Frame.new(*shots)
+              else
+                LastFrame.new(*shots)
+              end
+
+      @frames.last.next_frame = frame unless @frames.empty?
+      @frames << frame
     end
   end
 
   def score
-    @frames.reduce(0) { |sum, frame| sum + frame.score }
+    sum = 0
+    @frames.each do |frame|
+      sum += frame.score
+
+      if frame.strike?
+        sum += frame.next_frame.first_shot.score + frame.next_frame.second_shot.score
+        sum += frame.next_frame.next_frame.first_shot.score if frame.next_frame.strike?
+      elsif frame.spare?
+        sum += frame.next_frame.first_shot.score
+      end
+    end
+
+    sum
   end
 
   private
@@ -50,7 +63,7 @@ class Game
   def check_content_of_marks(marks)
     marks.each_with_index do |mark, index|
       raise "Invalid mark: 'X' can marked only first shot in the frame" if index < 18 && index.odd? && mark == 'X'
-      raise "Invalid mark: mark use only 'X', integer 0 to 9" unless mark == 'X' || mark.to_i.between?(0, 9)
+      raise "Invalid mark: mark use only 'X', integer 0 to 9" unless mark == 'X' || mark.to_i.between?(0, 10)
     end
   end
 

@@ -1,8 +1,20 @@
 # frozen_string_literal: true
 
-# LastFrameクラスを定義
 class LastFrame < Frame
   def post_initialize(shots)
-    @shots << shots[2] if shots.length == 3
+    return if shots.length < 3
+
+    @third_shot = shots[2]
+    @shots << @third_shot
+  end
+
+  def next_frame
+    raise 'Last frame has no next frame'
+  end
+
+  private
+
+  def last_frame?
+    true
   end
 end

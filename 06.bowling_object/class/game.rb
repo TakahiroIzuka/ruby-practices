@@ -32,6 +32,8 @@ class Game
 
   def score
     sum = 0
+    return sum if @frames.empty?
+
     @frames.each do |frame|
       sum += frame.score
 

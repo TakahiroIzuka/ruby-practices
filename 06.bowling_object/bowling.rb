@@ -7,6 +7,5 @@ marks = mark.split(',')
 
 game = Game.new
 game.play(marks)
-score = game.score
 
-puts score
+puts game.score

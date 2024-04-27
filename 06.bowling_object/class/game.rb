@@ -30,7 +30,7 @@ class Game
   end
 
   def score
-    # TODO: scoreの計算
+    @frames.reduce(0) { |sum, frame| sum + frame.score }
   end
 
   private

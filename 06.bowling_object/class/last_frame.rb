@@ -2,6 +2,8 @@
 
 class LastFrame < Frame
   def post_initialize(shots)
+    @second_shot = shots[1]
+
     return if shots.length < 3
 
     @third_shot = shots[2]
@@ -17,4 +19,8 @@ class LastFrame < Frame
   def last_frame?
     true
   end
+
+  def check_zero_after_strike; end
+
+  def check_score_over_ten; end
 end

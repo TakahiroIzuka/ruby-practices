@@ -11,7 +11,7 @@ class Game
 
   def play(marks)
     marks = add_zero_after_strike(marks)
-    check_format_of_marks(marks)
+    check_number_of_marks(marks)
     formatted_marks = formatted_marks(marks)
 
     formatted_marks.each_with_index do |marks_per_frame, index|
@@ -57,12 +57,8 @@ class Game
     end
   end
 
-  def check_format_of_marks(marks)
+  def check_number_of_marks(marks)
     raise 'Number of marks is invalid' unless marks.size == 20 || marks.size == 21
-
-    marks.each_with_index do |mark, index|
-      raise "Invalid mark: 'X' can marked only first shot in the frame" if mark.casecmp('X').zero? && index.odd? && index < 18
-    end
   end
 
   def formatted_marks(marks)

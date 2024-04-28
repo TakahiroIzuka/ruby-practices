@@ -4,7 +4,9 @@ class Shot
   attr_reader :mark
 
   def initialize(mark)
-    @mark = mark
+    raise 'Invalid mark' unless mark.to_s.casecmp('X').zero? || mark.to_i.between?(0, 10)
+
+    @mark = mark.to_s.upcase
   end
 
   def score

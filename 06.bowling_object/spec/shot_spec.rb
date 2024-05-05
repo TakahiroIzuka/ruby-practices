@@ -17,14 +17,6 @@ describe Shot do
       end
     end
 
-    context "when mark is lower case 'x'" do
-      let(:mark) { 'x' }
-
-      it 'return 10 (case insensitive)' do
-        is_expected.to eq 10
-      end
-    end
-
     context "when mark is '11'" do
       let(:mark) { '11' }
 

@@ -12,17 +12,17 @@ class Game
   def play(marks)
     shots = Shot.shot_factory(marks)
 
-    @frames = []
-    (1..10).each do |index|
-      frame = index != 10 ? Frame.new : LastFrame.new
-      (1..3).each do |_|
+    prev_frame = nil
+    @frames = (1..10).map do |index|
+      frame = index == 10 ? LastFrame.new : Frame.new
+      3.times do
         break if frame.full? || shots.empty?
 
         frame.frame(shots.shift)
       end
 
-      @frames.last.next_frame = frame unless @frames.empty?
-      @frames << frame
+      prev_frame.next_frame = frame if index > 1
+      prev_frame = frame
     end
 
     raise 'Number of marks is invalid' if @frames.size != 10

@@ -8,13 +8,11 @@ class Shot
   def initialize(mark)
     validate_mark(mark)
 
-    @mark = mark.to_s.upcase
+    @mark = mark.to_s
   end
 
   def score
-    return MAX_SCORE if @mark == 'X'
-
-    @mark.to_i
+    @mark == 'X' ? MAX_SCORE : @mark.to_i
   end
 
   def self.shot_factory(marks)
@@ -31,6 +29,6 @@ class Shot
   private
 
   def validate_mark(mark)
-    raise 'Invalid mark' unless mark.to_s.casecmp('X').zero? || mark.to_i.between?(0, MAX_SCORE)
+    raise 'Invalid mark' unless mark.to_s == 'X' || mark.to_i.between?(0, MAX_SCORE)
   end
 end

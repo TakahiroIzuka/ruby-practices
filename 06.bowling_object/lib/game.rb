@@ -24,8 +24,6 @@ class Game
       prev_frame.next_frame = frame if index > 1
       prev_frame = frame
     end
-
-    raise 'Number of marks is invalid' if @frames.size != 10
   end
 
   def score

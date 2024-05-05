@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../class/game'
+require_relative '../lib/game'
 
 describe Game do
   describe 'play and score' do

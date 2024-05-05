@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative '../class/frame'
-require_relative '../class/shot'
+require_relative '../lib/frame'
+require_relative '../lib/shot'
 
 describe Frame do
   describe 'frame' do

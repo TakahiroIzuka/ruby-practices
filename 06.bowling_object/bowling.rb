@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative './class/game'
+require_relative './lib/game'
 
 mark = ARGV[0]
 marks = mark.split(',')

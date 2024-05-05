@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../class/shot'
+require_relative '../lib/shot'
 
 describe Shot do
   describe 'score' do

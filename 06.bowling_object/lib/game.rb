@@ -18,7 +18,7 @@ class Game
       3.times do
         break if frame.full? || shots.empty?
 
-        frame.frame(shots.shift)
+        frame.set(shots.shift)
       end
 
       prev_frame.next_frame = frame if index > 1
@@ -31,7 +31,7 @@ class Game
     return sum if @frames.empty?
 
     @frames.each_with_index do |frame, index|
-      check_frame(frame, index)
+      check_set(frame, index)
 
       sum += frame.score
       if frame.strike?
@@ -47,7 +47,7 @@ class Game
 
   private
 
-  def check_frame(frame, index)
+  def check_set(frame, index)
     raise 'Invalid frame (Processing frame is not full)' if index.zero? && !frame.full?
     raise 'Invalid frame (Next frame is not full)' if !frame.last_frame? && !frame.next_frame.full?
   end

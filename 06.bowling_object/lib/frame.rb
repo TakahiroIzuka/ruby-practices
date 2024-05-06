@@ -10,7 +10,7 @@ class Frame
     @shots = []
   end
 
-  def frame(shot)
+  def set(shot)
     return if full?
 
     if !first_shot.nil? && second_shot.nil?

@@ -8,9 +8,9 @@ describe LastFrame do
   describe 'frame' do
     subject do
       frame = LastFrame.new
-      frame.frame(first_shot)
-      frame.frame(second_shot)
-      frame.frame(third_shot)
+      frame.set(first_shot)
+      frame.set(second_shot)
+      frame.set(third_shot)
     end
 
     context 'when first shot is 1 and second shot is X' do
@@ -46,9 +46,9 @@ describe LastFrame do
     context 'when all X' do
       it 'return true, score is 30' do
         frame = LastFrame.new
-        frame.frame(Shot.new('X'))
-        frame.frame(Shot.new('X'))
-        frame.frame(Shot.new('X'))
+        frame.set(Shot.new('X'))
+        frame.set(Shot.new('X'))
+        frame.set(Shot.new('X'))
         expect(frame.full?).to eq true
         expect(frame.score).to eq 30
       end
@@ -57,9 +57,9 @@ describe LastFrame do
     context 'when shot is 1, 2, 3' do
       it 'return true, score is 3' do
         frame = LastFrame.new
-        frame.frame(Shot.new('1'))
-        frame.frame(Shot.new('2'))
-        frame.frame(Shot.new('3'))
+        frame.set(Shot.new('1'))
+        frame.set(Shot.new('2'))
+        frame.set(Shot.new('3'))
         expect(frame.full?).to eq true
         expect(frame.score).to eq 3
       end
@@ -68,9 +68,9 @@ describe LastFrame do
     context 'when shot is 1, 9, X' do
       it 'return ture, score is 20' do
         frame = LastFrame.new
-        frame.frame(Shot.new('1'))
-        frame.frame(Shot.new('9'))
-        frame.frame(Shot.new('X'))
+        frame.set(Shot.new('1'))
+        frame.set(Shot.new('9'))
+        frame.set(Shot.new('X'))
         expect(frame.full?).to eq true
         expect(frame.score).to eq 20
       end
@@ -79,9 +79,9 @@ describe LastFrame do
     context 'when shot is X, 9, 1' do
       it 'return true, score is 20' do
         frame = LastFrame.new
-        frame.frame(Shot.new('X'))
-        frame.frame(Shot.new('9'))
-        frame.frame(Shot.new('1'))
+        frame.set(Shot.new('X'))
+        frame.set(Shot.new('9'))
+        frame.set(Shot.new('1'))
         expect(frame.full?).to eq true
         expect(frame.score).to eq 20
       end
@@ -91,8 +91,8 @@ describe LastFrame do
   describe 'strike?' do
     subject do
       frame = LastFrame.new
-      frame.frame(first_shot)
-      frame.frame(second_shot)
+      frame.set(first_shot)
+      frame.set(second_shot)
       frame.strike?
     end
 
@@ -109,8 +109,8 @@ describe LastFrame do
   describe 'spare?' do
     subject do
       frame = LastFrame.new
-      frame.frame(first_shot)
-      frame.frame(second_shot)
+      frame.set(first_shot)
+      frame.set(second_shot)
       frame.spare?
     end
 

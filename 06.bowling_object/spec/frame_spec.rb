@@ -7,8 +7,8 @@ describe Frame do
   describe 'frame' do
     subject do
       frame = Frame.new
-      frame.frame(first_shot)
-      frame.frame(second_shot)
+      frame.set(first_shot)
+      frame.set(second_shot)
     end
 
     context 'when first shot is X and second shot is 1' do
@@ -43,7 +43,7 @@ describe Frame do
     context 'when first shot is 1' do
       it 'return false' do
         frame = Frame.new
-        frame.frame(Shot.new('1'))
+        frame.set(Shot.new('1'))
         expect(frame.full?).to eq false
       end
     end
@@ -51,8 +51,8 @@ describe Frame do
     context 'when first shot is 1 and second shot is 2' do
       it 'return false' do
         frame = Frame.new
-        frame.frame(Shot.new('1'))
-        frame.frame(Shot.new('2'))
+        frame.set(Shot.new('1'))
+        frame.set(Shot.new('2'))
         expect(frame.full?).to eq true
       end
     end
@@ -61,8 +61,8 @@ describe Frame do
   describe 'strike?' do
     subject do
       frame = Frame.new
-      frame.frame(first_shot)
-      frame.frame(second_shot)
+      frame.set(first_shot)
+      frame.set(second_shot)
       frame.strike?
     end
 
@@ -88,8 +88,8 @@ describe Frame do
   describe 'spare?' do
     subject do
       frame = Frame.new
-      frame.frame(first_shot)
-      frame.frame(second_shot)
+      frame.set(first_shot)
+      frame.set(second_shot)
       frame.spare?
     end
 

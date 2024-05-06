@@ -20,14 +20,6 @@ class LastFrame < Frame
     false
   end
 
-  def next_frame=(_)
-    raise 'Last frame has no next frame'
-  end
-
-  def next_frame
-    raise 'Last frame has no next frame'
-  end
-
   def last_frame?
     true
   end

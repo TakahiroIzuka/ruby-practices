@@ -123,18 +123,4 @@ describe LastFrame do
       end
     end
   end
-
-  describe 'next_frame' do
-    subject do
-      before_frame = LastFrame.new
-      frame = LastFrame.new
-      before_frame.next_frame = frame
-    end
-
-    context 'when first shot is X and second shot is 0' do
-      it 'exception occurs' do
-        expect { subject }.to raise_error 'Last frame has no next frame'
-      end
-    end
-  end
 end

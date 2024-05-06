@@ -34,7 +34,15 @@ class Frame
   end
 
   def score
-    @shots.sum(&:score)
+    sum = @shots.sum(&:score)
+    if strike?
+      sum += next_frame.first_shot.score + next_frame.second_shot.score
+      sum += next_frame.next_frame.first_shot.score if next_frame.strike?
+    elsif spare?
+      sum += next_frame.first_shot.score
+    end
+
+    sum
   end
 
   def strike?

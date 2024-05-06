@@ -34,12 +34,6 @@ class Game
       check_set(frame, index)
 
       sum += frame.score
-      if frame.strike?
-        sum += frame.next_frame.first_shot.score + frame.next_frame.second_shot.score
-        sum += frame.next_frame.next_frame.first_shot.score if frame.next_frame.strike?
-      elsif frame.spare?
-        sum += frame.next_frame.first_shot.score
-      end
     end
 
     sum

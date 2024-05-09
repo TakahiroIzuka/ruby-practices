@@ -4,111 +4,134 @@ require_relative '../lib/frame'
 require_relative '../lib/shot'
 
 describe Frame do
-  describe 'frame' do
-    subject do
-      frame = Frame.new
-      frame.set(first_shot)
-      frame.set(second_shot)
-    end
+  describe 'set' do
+    context 'valid shots' do
+      let!(:frame) { Frame.new }
+      let!(:first_mark) { '2' }
+      let!(:second_mark) { '5' }
 
-    context 'when first shot is X and second shot is 1' do
-      let(:first_shot) { Shot.new('X') }
-      let(:second_shot) { Shot.new('1') }
+      before do
+        frame.set(Shot.new(first_mark))
+        frame.set(Shot.new(second_mark))
+      end
 
-      it 'exception occurs' do
-        expect { subject }.to raise_error 'Invalid shot (Only 0 after X)'
+      it 'can set completely' do
+        expect(frame.first_shot.score).to eq 2
+        expect(frame.second_shot.score).to eq 5
+      end
+      context 'when strike' do
+        let!(:first_mark) { 'X' }
+        let!(:second_mark) { '0' }
+
+        it 'can set completely' do
+          expect(frame.first_shot.score).to eq 10
+          expect(frame.second_shot.score).to eq 0
+        end
+      end
+      context 'when spare' do
+        let!(:first_mark) { '1' }
+        let!(:second_mark) { '9' }
+
+        it 'can set first and second shot' do
+          expect(frame.first_shot.score).to eq 1
+          expect(frame.second_shot.score).to eq 9
+        end
       end
     end
 
-    context 'when first shot is 1 and second shot is X' do
-      let(:first_shot) { Shot.new('1') }
-      let(:second_shot) { Shot.new('X') }
+    context 'invalid shots' do
+      let!(:frame) { Frame.new }
 
-      it 'exception occurs' do
-        expect { subject }.to raise_error 'Invalid shot (X is only first shot)'
+      context 'when first shot is X and second shot is 1' do
+        it 'exception occurs' do
+          expect do
+            frame.set(Shot.new('X'))
+            frame.set(Shot.new('1'))
+          end.to raise_error 'Invalid shot (Only 0 after X)'
+        end
       end
-    end
-
-    context 'when score is more than 10' do
-      let(:first_shot) { Shot.new('2') }
-      let(:second_shot) { Shot.new('9') }
-
-      it 'exception occurs' do
-        expect { subject }.to raise_error 'Invalid shot (Total score is at least 10 by the second shot unless first shot is X)'
+      context 'when first shot is 1 and second shot is X' do
+        it 'exception occurs' do
+          expect do
+            frame.set(Shot.new('1'))
+            frame.set(Shot.new('X'))
+          end.to raise_error 'Invalid shot (X is only first shot)'
+        end
+      end
+      context 'when score is more than 10' do
+        it 'exception occurs' do
+          expect do
+            frame.set(Shot.new('1'))
+            frame.set(Shot.new('10'))
+          end.to raise_error 'Invalid shot (Total score is at most 10)'
+        end
       end
     end
   end
 
   describe 'full?' do
-    context 'when first shot is 1' do
-      it 'return false' do
-        frame = Frame.new
-        frame.set(Shot.new('1'))
-        expect(frame.full?).to eq false
-      end
-    end
+    let!(:frame) { Frame.new }
+    subject { frame.full? }
 
-    context 'when first shot is 1 and second shot is 2' do
-      it 'return false' do
-        frame = Frame.new
+    context 'when set only first_shot' do
+      before do
+        frame.set(Shot.new('X'))
+      end
+
+      it { is_expected.to be false }
+    end
+    context 'when set two shots' do
+      before do
         frame.set(Shot.new('1'))
         frame.set(Shot.new('2'))
-        expect(frame.full?).to eq true
       end
+
+      it { is_expected.to be true }
     end
   end
 
   describe 'strike?' do
-    subject do
-      frame = Frame.new
-      frame.set(first_shot)
-      frame.set(second_shot)
-      frame.strike?
-    end
+    let!(:frame) { Frame.new }
+    subject { frame.strike? }
 
+    before do
+      frame.set(Shot.new(first_mark))
+      frame.set(Shot.new(second_mark))
+    end
     context 'when first shot is X and second shot is 0' do
-      let(:first_shot) { Shot.new('X') }
-      let(:second_shot) { Shot.new('0') }
+      let!(:first_mark) { 'X' }
+      let!(:second_mark) { '0' }
 
-      it 'return true' do
-        is_expected.to be true
-      end
+      it { is_expected.to be true }
     end
-
     context 'when first shot is 1 and second shot is 9' do
-      let(:first_shot) { Shot.new('1') }
-      let(:second_shot) { Shot.new('9') }
+      let!(:first_mark) { '1' }
+      let!(:second_mark) { '9' }
 
-      it 'return false' do
-        is_expected.to be false
-      end
+      it { is_expected.to be false }
     end
   end
 
   describe 'spare?' do
-    subject do
-      frame = Frame.new
-      frame.set(first_shot)
-      frame.set(second_shot)
-      frame.spare?
+    let(:frame) { Frame.new }
+    subject { frame.spare? }
+
+    before do
+      frame.set(Shot.new(first_mark))
+      frame.set(Shot.new(second_mark))
     end
 
     context 'when first shot is X and second shot is 0' do
-      let(:first_shot) { Shot.new('X') }
-      let(:second_shot) { Shot.new('0') }
+      let!(:first_mark) { 'X' }
+      let!(:second_mark) { '0' }
 
-      it 'return false' do
-        is_expected.to be false
-      end
+      it { is_expected.to be false }
     end
-
     context 'when first shot is 1 and second shot is 9' do
-      let(:first_shot) { Shot.new('1') }
-      let(:second_shot) { Shot.new('9') }
+      let!(:first_mark) { '1' }
+      let!(:second_mark) { '9' }
 
-      it 'return true' do
-        is_expected.to be true
-      end
+      it { is_expected.to be true }
     end
   end
 end

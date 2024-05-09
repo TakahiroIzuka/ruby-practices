@@ -6,6 +6,4 @@ mark = ARGV[0]
 marks = mark.split(',')
 
 game = Game.new
-game.play(marks)
-
-puts game.score
+puts game.play(marks)

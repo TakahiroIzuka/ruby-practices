@@ -24,7 +24,11 @@ class Game
       prev_frame.next_frame = frame if index > 1
       prev_frame = frame
     end
+
+    score
   end
+
+  private
 
   def score
     sum = 0
@@ -32,14 +36,11 @@ class Game
 
     @frames.each_with_index do |frame, index|
       check_set(frame, index)
-
       sum += frame.score
     end
 
     sum
   end
-
-  private
 
   def check_set(frame, index)
     raise 'Invalid frame (Processing frame is not full)' if index.zero? && !frame.full?

@@ -7,7 +7,6 @@ describe Game do
     subject do
       game = Game.new
       game.play(marks)
-      game.score
     end
 
     context 'when marks has strike and spare and no mark' do
@@ -36,13 +35,6 @@ describe Game do
 
       it 'return exception' do
         expect { subject }.to raise_error 'Invalid frame (Next frame is not full)'
-      end
-    end
-
-    context 'when call score before call play' do
-      it 'return 0' do
-        game = Game.new
-        expect(game.score).to eq 0
       end
     end
   end

@@ -13,11 +13,8 @@ class Frame
   def set(shot)
     return if full?
 
-    if !first_shot.nil? && second_shot.nil?
-      validate_second_shot(shot)
-      validate_total_two_score(shot)
-    end
-
+    validate_second_shot(shot) if !first_shot.nil? && second_shot.nil?
+    validate_total_score(shot)
     @shots << shot
   end
 
@@ -61,13 +58,16 @@ class Frame
 
   private
 
+  def max_score
+    MAX_SCORE
+  end
+
   def validate_second_shot(shot)
     raise 'Invalid shot (X is only first shot)' if shot.mark == 'X'
     raise 'Invalid shot (Only 0 after X)' if first_shot.mark == 'X' && shot.mark != '0'
   end
 
-  def validate_total_two_score(shot)
-    total_score = first_shot.score + shot.score
-    raise 'Invalid shot (Total score is at least 10 by the second shot unless first shot is X)' if total_score > MAX_SCORE
+  def validate_total_score(shot)
+    raise "Invalid shot (Total score is at most #{max_score})" if @shots.sum(&:score) + shot.score > max_score
   end
 end

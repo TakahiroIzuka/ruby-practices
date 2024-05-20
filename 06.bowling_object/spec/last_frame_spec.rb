@@ -17,8 +17,8 @@ describe LastFrame do
       end
 
       it 'can set first and second shot' do
-        expect(frame.first_shot.score).to eq 2
-        expect(frame.second_shot.score).to eq 5
+        expect(frame.shots[0].score).to eq 2
+        expect(frame.shots[1].score).to eq 5
       end
       context 'when first shot is X, second shot is X, third_shot is X' do
         let!(:first_mark) { 'X' }
@@ -30,9 +30,9 @@ describe LastFrame do
         end
 
         it 'can set first and second shot' do
-          expect(frame.first_shot.score).to eq 10
-          expect(frame.second_shot.score).to eq 10
-          expect(frame.third_shot.score).to eq 10
+          expect(frame.shots[0].score).to eq 10
+          expect(frame.shots[1].score).to eq 10
+          expect(frame.shots[2].score).to eq 10
         end
       end
       context 'when first shot is X, second shot is 0, third_shot is X' do
@@ -45,9 +45,9 @@ describe LastFrame do
         end
 
         it 'can set first and second shot' do
-          expect(frame.first_shot.score).to eq 10
-          expect(frame.second_shot.score).to eq 0
-          expect(frame.third_shot.score).to eq 10
+          expect(frame.shots[0].score).to eq 10
+          expect(frame.shots[1].score).to eq 0
+          expect(frame.shots[2].score).to eq 10
         end
       end
     end

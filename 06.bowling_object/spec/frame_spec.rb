@@ -16,16 +16,16 @@ describe Frame do
       end
 
       it 'can set completely' do
-        expect(frame.first_shot.score).to eq 2
-        expect(frame.second_shot.score).to eq 5
+        expect(frame.shots[0].score).to eq 2
+        expect(frame.shots[1].score).to eq 5
       end
       context 'when strike' do
         let!(:first_mark) { 'X' }
         let!(:second_mark) { '0' }
 
         it 'can set completely' do
-          expect(frame.first_shot.score).to eq 10
-          expect(frame.second_shot.score).to eq 0
+          expect(frame.shots[0].score).to eq 10
+          expect(frame.shots[1].score).to eq 0
         end
       end
       context 'when spare' do
@@ -33,8 +33,8 @@ describe Frame do
         let!(:second_mark) { '9' }
 
         it 'can set first and second shot' do
-          expect(frame.first_shot.score).to eq 1
-          expect(frame.second_shot.score).to eq 9
+          expect(frame.shots[0].score).to eq 1
+          expect(frame.shots[1].score).to eq 9
         end
       end
     end

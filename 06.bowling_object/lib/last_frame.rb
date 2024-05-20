@@ -2,8 +2,8 @@
 
 class LastFrame < Frame
   def full?
-    return false if shots[0].nil? || shots[1].nil?
-    return false if shots[2].nil? && max_score > 19
+    return true if shots.size == 3
+    return false if shots[0].nil? || shots[1].nil? || shots[0..1].sum(&:score) >= 10
 
     true
   end
@@ -14,10 +14,6 @@ class LastFrame < Frame
 
   def spare?
     false
-  end
-
-  def last_frame?
-    true
   end
 
   private

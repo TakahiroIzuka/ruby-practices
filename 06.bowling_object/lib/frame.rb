@@ -37,13 +37,9 @@ class Frame
   end
 
   def spare?
-    return false if strike? || !full?
+    return false if strike?
 
     @shots[0..1].sum(&:score) == MAX_SCORE
-  end
-
-  def last_frame?
-    false
   end
 
   private

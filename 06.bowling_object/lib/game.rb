@@ -48,6 +48,6 @@ class Game
 
   def check_set(frame, index)
     raise 'Invalid frame (Processing frame is not full)' if index.zero? && !frame.full?
-    raise 'Invalid frame (Next frame is not full)' if !frame.last_frame? && !frame.next_frame.full?
+    raise 'Invalid frame (Next frame is not full)' if !frame.next_frame.nil? && !frame.next_frame.full?
   end
 end

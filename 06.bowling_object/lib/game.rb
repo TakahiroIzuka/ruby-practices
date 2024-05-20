@@ -6,23 +6,17 @@ require_relative './shot'
 
 class Game
   def initialize
-    @frames = []
+    @frames = frame_factory
   end
 
   def play(marks)
     shots = Shot.shot_factory(marks)
-
-    prev_frame = nil
-    @frames = (1..10).map do |index|
-      frame = index == 10 ? LastFrame.new : Frame.new
+    @frames.each do |frame|
       3.times do
         break if frame.full? || shots.empty?
 
         frame.set(shots.shift)
       end
-
-      prev_frame.next_frame = frame if index > 1
-      prev_frame = frame
     end
 
     score
@@ -40,6 +34,16 @@ class Game
     end
 
     sum
+  end
+
+  def frame_factory
+    prev_frame = nil
+    frames = (1..10).map do |index|
+      frame = index == 1 ? LastFrame.new : Frame.new(prev_frame)
+      prev_frame = frame
+    end
+
+    frames.reverse
   end
 
   def check_set(frame, index)

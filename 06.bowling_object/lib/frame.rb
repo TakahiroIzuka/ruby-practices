@@ -3,10 +3,10 @@
 class Frame
   MAX_SCORE = 10
 
-  attr_reader :shots
-  attr_accessor :next_frame
+  attr_reader :shots, :next_frame
 
-  def initialize
+  def initialize(next_frame = nil)
+    @next_frame = next_frame
     @shots = []
   end
 

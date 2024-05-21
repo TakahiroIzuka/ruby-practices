@@ -17,15 +17,6 @@ class Shot
     @mark == 'X'
   end
 
-  def self.shot_factory(marks)
-    marks.each_with_object([]) do |mark, shots|
-      shot = Shot.new(mark)
-      shots << shot
-      # TODO: 18がマジックナンバーなので、
-      shots << Shot.new('0') if shot.strike? && shots.size < 18
-    end
-  end
-
   private
 
   def validate_mark(mark)

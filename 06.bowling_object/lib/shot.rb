@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Shot
+  MAX_SCORE = 10
+
   attr_reader :mark
 
   def initialize(mark)
@@ -10,7 +12,7 @@ class Shot
   end
 
   def score
-    @mark == 'X' ? 10 : @mark.to_i
+    @mark == 'X' ? MAX_SCORE : @mark.to_i
   end
 
   def strike?
@@ -20,6 +22,6 @@ class Shot
   private
 
   def validate_mark(mark)
-    raise 'Invalid mark' unless mark.to_s == 'X' || mark.to_i.between?(0, 10)
+    raise 'Invalid mark' unless mark.to_s == 'X' || mark.to_i.between?(0, MAX_SCORE)
   end
 end

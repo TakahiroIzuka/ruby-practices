@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class Frame
-  MAX_SCORE = 10
-
   attr_reader :shots, :next_frame
 
   def initialize(next_frame = nil)
@@ -39,13 +37,13 @@ class Frame
   def spare?
     return false if strike?
 
-    @shots[0..1].sum(&:score) == MAX_SCORE
+    @shots[0..1].sum(&:score) == max_score
   end
 
   private
 
   def max_score
-    MAX_SCORE
+    10
   end
 
   def validate_second_shot(shot)

@@ -20,9 +20,9 @@ class LastFrame < Frame
 
   def max_score
     return 30 if @shots.size >= 2 && shots[0].mark == 'X' && shots[1].mark == 'X'
-    return 20 if @shots.size >= 1 && shots[0].mark == 'X' || @shots[0..1].sum(&:score) == MAX_SCORE
+    return 20 if @shots.size >= 1 && shots[0].mark == 'X' || @shots[0..1].sum(&:score) == 10
 
-    MAX_SCORE
+    10
   end
 
   def validate_second_shot(shot)

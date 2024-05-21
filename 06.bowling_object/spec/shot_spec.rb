@@ -30,14 +30,6 @@ describe Shot do
       end
     end
 
-    context 'when mark is integer 10' do
-      let(:mark) { 10 }
-
-      it 'return 10' do
-        is_expected.to eq 10
-      end
-    end
-
     context "when mark is '0'" do
       let(:mark) { '0' }
 

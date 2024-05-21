@@ -48,7 +48,6 @@ class Frame
 
   def validate_second_shot(shot)
     raise 'Invalid shot (X is only first shot)' if shot.mark == 'X'
-    raise 'Invalid shot (Only 0 after X)' if shots[0].mark == 'X' && shot.mark != '0'
   end
 
   def validate_total_score(shot)

@@ -42,14 +42,6 @@ describe Frame do
     context 'invalid shots' do
       let!(:frame) { Frame.new }
 
-      context 'when first shot is X and second shot is 1' do
-        it 'exception occurs' do
-          expect do
-            frame.set(Shot.new('X'))
-            frame.set(Shot.new('1'))
-          end.to raise_error 'Invalid shot (Only 0 after X)'
-        end
-      end
       context 'when first shot is 1 and second shot is X' do
         it 'exception occurs' do
           expect do

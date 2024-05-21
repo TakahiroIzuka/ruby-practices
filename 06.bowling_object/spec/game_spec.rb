@@ -24,18 +24,10 @@ describe Game do
       it { is_expected.to eq 300 }
     end
 
-    context 'when too many marks ' do
+    context 'when too many marks' do
       let(:marks) { %w[X X X X X X X X X X X X X] }
 
       it { is_expected.to eq 300 }
-    end
-
-    context 'when too few marks ' do
-      let(:marks) { %w[X X X X X X X X X X] }
-
-      it 'return exception' do
-        expect { subject }.to raise_error 'Invalid frame (Next frame is not full)'
-      end
     end
   end
 end

@@ -2,8 +2,7 @@
 
 require_relative './lib/game'
 
-mark = ARGV[0]
-marks = mark.split(',')
+marks = ARGV[0].split(',')
 
 game = Game.new
 puts game.play(marks)

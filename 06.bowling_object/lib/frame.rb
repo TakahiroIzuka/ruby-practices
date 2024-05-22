@@ -8,8 +8,6 @@ class Frame
   end
 
   def set(shot)
-    validate_second_shot(shot) if !shots[0].nil? && shots[1].nil?
-    validate_total_score(shot)
     @shots << shot
     @shots << Shot.new('0') if strike?
   end
@@ -36,13 +34,5 @@ class Frame
 
   def max_score
     10
-  end
-
-  def validate_second_shot(shot)
-    raise 'Invalid shot (X is only first shot)' if shot.mark == 'X'
-  end
-
-  def validate_total_score(shot)
-    raise "Invalid shot (Total score is at most #{max_score})" if @shots.sum(&:score) + shot.score > max_score
   end
 end

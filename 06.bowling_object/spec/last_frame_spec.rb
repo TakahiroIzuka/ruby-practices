@@ -51,38 +51,6 @@ describe LastFrame do
         end
       end
     end
-
-    context 'valid shots' do
-      let!(:frame) { LastFrame.new }
-
-      context 'when second shot is X in spite of first shot is not X' do
-        it 'exception occurs' do
-          expect do
-            frame.set(Shot.new('1'))
-            frame.set(Shot.new('X'))
-          end.to raise_error 'Invalid shot (X can mark only after X)'
-        end
-      end
-
-      context 'when sum of two shots is over 10' do
-        it 'exception occurs' do
-          expect do
-            frame.set(Shot.new('9'))
-            frame.set(Shot.new('2'))
-          end.to raise_error 'Invalid shot (Total score is at most 10)'
-        end
-      end
-
-      context 'when first shot is X and second shot is 9 and third shot is 2' do
-        it 'exception occurs' do
-          expect do
-            frame.set(Shot.new('X'))
-            frame.set(Shot.new('9'))
-            frame.set(Shot.new('2'))
-          end.to raise_error 'Invalid shot (Total score is at most 20)'
-        end
-      end
-    end
   end
 
   describe 'full?' do

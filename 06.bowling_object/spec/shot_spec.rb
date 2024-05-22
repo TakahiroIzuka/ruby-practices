@@ -14,14 +14,6 @@ describe Shot do
       end
     end
 
-    context "when mark is '11'" do
-      let(:mark) { '11' }
-
-      it 'return exception' do
-        expect { subject }.to raise_error 'Invalid mark'
-      end
-    end
-
     context "when mark is '10'" do
       let(:mark) { '10' }
 
@@ -35,14 +27,6 @@ describe Shot do
 
       it 'return 0' do
         is_expected.to eq 0
-      end
-    end
-
-    context "when mark is '-1'" do
-      let(:mark) { '-1' }
-
-      it 'return exception' do
-        expect { subject }.to raise_error 'Invalid mark'
       end
     end
   end

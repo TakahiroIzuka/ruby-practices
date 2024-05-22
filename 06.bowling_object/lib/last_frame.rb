@@ -24,8 +24,4 @@ class LastFrame < Frame
 
     10
   end
-
-  def validate_second_shot(shot)
-    raise 'Invalid shot (X can mark only after X)' if shots[0].mark != 'X' && shot.mark == 'X'
-  end
 end

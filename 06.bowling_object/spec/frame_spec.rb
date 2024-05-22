@@ -38,27 +38,6 @@ describe Frame do
         end
       end
     end
-
-    context 'invalid shots' do
-      let!(:frame) { Frame.new }
-
-      context 'when first shot is 1 and second shot is X' do
-        it 'exception occurs' do
-          expect do
-            frame.set(Shot.new('1'))
-            frame.set(Shot.new('X'))
-          end.to raise_error 'Invalid shot (X is only first shot)'
-        end
-      end
-      context 'when score is more than 10' do
-        it 'exception occurs' do
-          expect do
-            frame.set(Shot.new('1'))
-            frame.set(Shot.new('10'))
-          end.to raise_error 'Invalid shot (Total score is at most 10)'
-        end
-      end
-    end
   end
 
   describe 'full?' do

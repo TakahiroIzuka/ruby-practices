@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
 class Frame
-  attr_reader :shots, :next_frame
+  attr_reader :shots
 
-  def initialize(next_frame = nil)
-    @next_frame = next_frame
+  def initialize
     @shots = []
   end
 
@@ -19,15 +18,7 @@ class Frame
   end
 
   def score
-    sum = @shots.sum(&:score)
-    if strike?
-      sum += next_frame.shots[0].score + next_frame.shots[1].score
-      sum += next_frame.next_frame.shots[0].score if next_frame.strike?
-    elsif spare?
-      sum += next_frame.shots[0].score
-    end
-
-    sum
+    shots.sum(&:score)
   end
 
   def strike?

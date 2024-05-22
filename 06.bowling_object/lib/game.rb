@@ -6,7 +6,9 @@ require_relative './shot'
 
 class Game
   def initialize
-    @frames = frame_factory
+    @frames = Array.new(10) do |index|
+      index == 9 ? LastFrame.new : Frame.new
+    end
   end
 
   def play(marks)
@@ -20,18 +22,22 @@ class Game
       end
     end
 
-    @frames.sum(&:score)
+    sum_scores(@frames)
   end
 
   private
 
-  def frame_factory
-    prev_frame = nil
-    frames = Array.new(10) do |index|
-      frame = index.zero? ? LastFrame.new : Frame.new(prev_frame)
-      prev_frame = frame
-    end
+  def sum_scores(frames)
+    frames.each_with_index.sum do |frame, index|
+      sum = frame.score
+      if frame.strike?
+        sum += frames[index + 1].shots[0..1].sum(&:score)
+        sum += frames[index + 2].shots[0].score if frames[index + 1].strike?
+      elsif frame.spare?
+        sum += frames[index + 1].shots[0].score
+      end
 
-    frames.reverse
+      sum
+    end
   end
 end

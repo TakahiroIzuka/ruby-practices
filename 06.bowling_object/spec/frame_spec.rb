@@ -67,7 +67,7 @@ describe Frame do
 
     context 'when set only first_shot' do
       before do
-        frame.set(Shot.new('X'))
+        frame.set(Shot.new('1'))
       end
 
       it { is_expected.to be false }
@@ -76,6 +76,13 @@ describe Frame do
       before do
         frame.set(Shot.new('1'))
         frame.set(Shot.new('2'))
+      end
+
+      it { is_expected.to be true }
+    end
+    context 'when first_shot mark X' do
+      before do
+        frame.set(Shot.new('X'))
       end
 
       it { is_expected.to be true }

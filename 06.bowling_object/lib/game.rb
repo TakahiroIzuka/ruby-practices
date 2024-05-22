@@ -12,13 +12,14 @@ class Game
   end
 
   def play(marks)
-    @frames.each.with_index(1) do |frame, current_frame|
+    index = 0
+    @frames.each do |frame|
       3.times do
-        break if frame.full? || marks.empty?
+        break if frame.full?
 
-        shot = Shot.new(marks.shift)
+        shot = Shot.new(marks[index])
         frame.set(shot)
-        frame.set(Shot.new('0')) if shot.strike? && current_frame < 10
+        index += 1
       end
     end
 

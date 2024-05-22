@@ -11,6 +11,7 @@ class Frame
     validate_second_shot(shot) if !shots[0].nil? && shots[1].nil?
     validate_total_score(shot)
     @shots << shot
+    @shots << Shot.new('0') if strike?
   end
 
   def full?

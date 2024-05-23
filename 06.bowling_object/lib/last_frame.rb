@@ -2,10 +2,7 @@
 
 class LastFrame < Frame
   def full?
-    return true if shots.size == 3
-    return false if shots[0].nil? || shots[1].nil? || shots[0..1].sum(&:score) >= 10
-
-    true
+    shots.size == 3 || shots.size == 2 && score < 10
   end
 
   def strike?
@@ -14,14 +11,5 @@ class LastFrame < Frame
 
   def spare?
     false
-  end
-
-  private
-
-  def max_score
-    return 30 if @shots.size >= 2 && shots[0].mark == 'X' && shots[1].mark == 'X'
-    return 20 if @shots.size >= 1 && shots[0].mark == 'X' || @shots[0..1].sum(&:score) == 10
-
-    10
   end
 end

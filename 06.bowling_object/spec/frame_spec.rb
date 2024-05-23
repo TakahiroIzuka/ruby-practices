@@ -72,19 +72,18 @@ describe Frame do
     let!(:frame) { Frame.new }
     subject { frame.strike? }
 
-    before do
-      frame.set(Shot.new(first_mark))
-      frame.set(Shot.new(second_mark))
-    end
-    context 'when first shot is X and second shot is 0' do
-      let!(:first_mark) { 'X' }
-      let!(:second_mark) { '0' }
+    context 'when first shot is X' do
+      before do
+        frame.set(Shot.new('X'))
+      end
 
       it { is_expected.to be true }
     end
     context 'when first shot is 1 and second shot is 9' do
-      let!(:first_mark) { '1' }
-      let!(:second_mark) { '9' }
+      before do
+        frame.set(Shot.new('1'))
+        frame.set(Shot.new('9'))
+      end
 
       it { is_expected.to be false }
     end
@@ -94,20 +93,18 @@ describe Frame do
     let(:frame) { Frame.new }
     subject { frame.spare? }
 
-    before do
-      frame.set(Shot.new(first_mark))
-      frame.set(Shot.new(second_mark))
-    end
-
-    context 'when first shot is X and second shot is 0' do
-      let!(:first_mark) { 'X' }
-      let!(:second_mark) { '0' }
+    context 'when first shot is X' do
+      before do
+        frame.set(Shot.new('X'))
+      end
 
       it { is_expected.to be false }
     end
     context 'when first shot is 1 and second shot is 9' do
-      let!(:first_mark) { '1' }
-      let!(:second_mark) { '9' }
+      before do
+        frame.set(Shot.new('1'))
+        frame.set(Shot.new('9'))
+      end
 
       it { is_expected.to be true }
     end

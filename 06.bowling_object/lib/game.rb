@@ -14,7 +14,7 @@ class Game
   def play(marks)
     index = 0
     @frames.each do |frame|
-      3.times do
+      loop do
         break if frame.full?
 
         shot = Shot.new(marks[index])

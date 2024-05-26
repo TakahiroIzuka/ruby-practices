@@ -5,50 +5,33 @@ require_relative '../lib/frame'
 require_relative '../lib/last_frame'
 
 describe LastFrame do
-  describe 'frame' do
-    context 'valid shots' do
-      let!(:frame) { LastFrame.new(0) }
-      let!(:first_mark) { '2' }
-      let!(:second_mark) { '5' }
+  describe 'set' do
+    let!(:frame) { LastFrame.new(0) }
+    let!(:first_mark) { '2' }
+    let!(:second_mark) { '5' }
+
+    before do
+      frame.set(Shot.new(first_mark))
+      frame.set(Shot.new(second_mark))
+    end
+
+    it 'can set first and second shot' do
+      expect(frame.shots[0].score).to eq 2
+      expect(frame.shots[1].score).to eq 5
+    end
+    context 'when can throw three times' do
+      let!(:first_mark) { '1' }
+      let!(:second_mark) { '9' }
+      let!(:third_mark) { 'X' }
 
       before do
-        frame.set(Shot.new(first_mark))
-        frame.set(Shot.new(second_mark))
+        frame.set(Shot.new(third_mark))
       end
 
       it 'can set first and second shot' do
-        expect(frame.shots[0].score).to eq 2
-        expect(frame.shots[1].score).to eq 5
-      end
-      context 'when first shot is X, second shot is X, third_shot is X' do
-        let!(:first_mark) { 'X' }
-        let!(:second_mark) { 'X' }
-        let!(:third_mark) { 'X' }
-
-        before do
-          frame.set(Shot.new(third_mark))
-        end
-
-        it 'can set first and second shot' do
-          expect(frame.shots[0].score).to eq 10
-          expect(frame.shots[1].score).to eq 10
-          expect(frame.shots[2].score).to eq 10
-        end
-      end
-      context 'when first shot is X, second shot is 0, third_shot is X' do
-        let!(:first_mark) { 'X' }
-        let!(:second_mark) { '0' }
-        let!(:third_mark) { 'X' }
-
-        before do
-          frame.set(Shot.new(third_mark))
-        end
-
-        it 'can set first and second shot' do
-          expect(frame.shots[0].score).to eq 10
-          expect(frame.shots[1].score).to eq 0
-          expect(frame.shots[2].score).to eq 10
-        end
+        expect(frame.shots[0].score).to eq 1
+        expect(frame.shots[1].score).to eq 9
+        expect(frame.shots[2].score).to eq 10
       end
     end
   end
@@ -103,9 +86,8 @@ describe LastFrame do
     let(:frame) { LastFrame.new(0) }
     subject { frame.strike? }
 
-    context 'when first shot is X and second shot is 0' do
+    context 'when first shot is X' do
       before do
-        frame.set(Shot.new('X'))
         frame.set(Shot.new('X'))
       end
 
@@ -117,7 +99,7 @@ describe LastFrame do
     let(:frame) { LastFrame.new(0) }
     subject { frame.spare? }
 
-    context 'when first shot is X and second shot is 0' do
+    context 'when sum of the first and second shot is 10' do
       before do
         frame.set(Shot.new('1'))
         frame.set(Shot.new('9'))

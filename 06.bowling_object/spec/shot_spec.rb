@@ -6,27 +6,18 @@ describe Shot do
   describe 'score' do
     subject { Shot.new(mark).score }
 
+    context 'when mark is number' do
+      let(:mark) { '9' }
+
+      it 'return 9' do
+        is_expected.to eq 9
+      end
+    end
     context "when mark is 'X'" do
       let(:mark) { 'X' }
 
       it 'return 10' do
         is_expected.to eq 10
-      end
-    end
-
-    context "when mark is '10'" do
-      let(:mark) { '10' }
-
-      it 'return 10' do
-        is_expected.to eq 10
-      end
-    end
-
-    context "when mark is '0'" do
-      let(:mark) { '0' }
-
-      it 'return 0' do
-        is_expected.to eq 0
       end
     end
   end

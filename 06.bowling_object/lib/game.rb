@@ -7,38 +7,23 @@ require_relative './shot'
 class Game
   def initialize
     @frames = Array.new(10) do |index|
-      index == 9 ? LastFrame.new : Frame.new
+      index == 9 ? LastFrame.new(index) : Frame.new(index)
     end
   end
 
   def play(marks)
-    index = 0
+    copied_marks = marks.dup
     @frames.each do |frame|
       loop do
         break if frame.full?
 
-        shot = Shot.new(marks[index])
+        shot = Shot.new(copied_marks.shift)
         frame.set(shot)
-        index += 1
       end
     end
 
-    sum_scores(@frames)
-  end
-
-  private
-
-  def sum_scores(frames)
-    frames.each_with_index.sum do |frame, index|
-      sum = frame.score
-      if frame.strike?
-        sum += frames[index + 1].shots[0..1].sum(&:score)
-        sum += frames[index + 2].shots[0].score if frames[index + 1].strike?
-      elsif frame.spare?
-        sum += frames[index + 1].shots[0].score
-      end
-
-      sum
+    @frames.sum do |frame|
+      frame.calc_score(@frames)
     end
   end
 end

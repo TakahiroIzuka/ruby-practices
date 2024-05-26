@@ -6,7 +6,7 @@ require_relative '../lib/shot'
 describe Frame do
   describe 'set' do
     context 'valid shots' do
-      let!(:frame) { Frame.new }
+      let!(:frame) { Frame.new(0) }
       let!(:first_mark) { '2' }
       let!(:second_mark) { '5' }
 
@@ -41,7 +41,7 @@ describe Frame do
   end
 
   describe 'full?' do
-    let!(:frame) { Frame.new }
+    let!(:frame) { Frame.new(0) }
     subject { frame.full? }
 
     context 'when set only first_shot' do
@@ -69,7 +69,7 @@ describe Frame do
   end
 
   describe 'strike?' do
-    let!(:frame) { Frame.new }
+    let!(:frame) { Frame.new(0) }
     subject { frame.strike? }
 
     context 'when first shot is X' do
@@ -90,7 +90,7 @@ describe Frame do
   end
 
   describe 'spare?' do
-    let(:frame) { Frame.new }
+    let(:frame) { Frame.new(0) }
     subject { frame.spare? }
 
     context 'when first shot is X' do

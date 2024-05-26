@@ -7,7 +7,7 @@ require_relative '../lib/last_frame'
 describe LastFrame do
   describe 'frame' do
     context 'valid shots' do
-      let!(:frame) { LastFrame.new }
+      let!(:frame) { LastFrame.new(0) }
       let!(:first_mark) { '2' }
       let!(:second_mark) { '5' }
 
@@ -54,7 +54,7 @@ describe LastFrame do
   end
 
   describe 'full?' do
-    let!(:frame) { LastFrame.new }
+    let!(:frame) { LastFrame.new(0) }
     subject { frame.full? }
 
     context 'when set only first_shot' do
@@ -100,7 +100,7 @@ describe LastFrame do
   end
 
   describe 'strike?' do
-    let(:frame) { LastFrame.new }
+    let(:frame) { LastFrame.new(0) }
     subject { frame.strike? }
 
     context 'when first shot is X and second shot is 0' do
@@ -114,7 +114,7 @@ describe LastFrame do
   end
 
   describe 'spare?' do
-    let(:frame) { LastFrame.new }
+    let(:frame) { LastFrame.new(0) }
     subject { frame.spare? }
 
     context 'when first shot is X and second shot is 0' do

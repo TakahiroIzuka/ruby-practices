@@ -3,7 +3,8 @@
 class Frame
   attr_reader :shots
 
-  def initialize
+  def initialize(index)
+    @index = index
     @shots = []
   end
 
@@ -16,14 +17,22 @@ class Frame
   end
 
   def strike?
-    shots.size == 1 && shots[0].strike?
+    shots[0]&.strike?
   end
 
   def spare?
-    !strike? && score == 10
+    !strike? && shots.sum(&:score) == 10
   end
 
-  def score
-    shots.sum(&:score)
+  def calc_score(frames)
+    sum = shots.sum(&:score)
+    if strike?
+      sum += frames[@index + 1].shots[0..1].sum(&:score)
+      sum += frames[@index + 2].shots[0].score if frames[@index + 1].strike?
+    elsif spare?
+      sum += frames[@index + 1].shots[0].score
+    end
+
+    sum
   end
 end
